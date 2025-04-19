@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27829d03b7755354d80e522dc707fc25, type: 3}
+  m_Name: Rectangle
+  m_EditorClassIdentifier: 
+  objectName: "\u041F\u0440\u044F\u043C\u043E\u0443\u0433\u043E\u043B\u044C\u043D\u0438\u043A"
+  icon: {fileID: 21300000, guid: 386ba9963028fe74eabbc15b4c0951ba, type: 3}
+  prefab: {fileID: 1544947020744229512, guid: b5dc43af977ff7b478a9e57e6921b453, type: 3}
+  minSize: 0.5
+  maxSize: 2
