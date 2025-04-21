@@ -84,14 +84,12 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        // Don't process input if over UI
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             startPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentPoint = startPoint;
             isDragging = true;
+            
             ShowVisualizations();
             
             // Set both line points to the same position initially
@@ -133,13 +131,20 @@ public class Mover : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && isDragging)
         {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                // Register the start of the transform action
+                TransformAction currentAction = new TransformAction(Camera.main.transform);
+                UndoManager.Instance.RegisterAction(currentAction);
+
+                Vector2 drawnVector = currentPoint - startPoint;
+                Vector2 oppositeVector = -drawnVector;
+                
+                Camera.main.transform.position += new Vector3(oppositeVector.x, oppositeVector.y, 0);
+            }
+
             isDragging = false;
             HideVisualizations();
-            
-            Vector2 drawnVector = currentPoint - startPoint;
-            Vector2 oppositeVector = -drawnVector;
-            
-            Camera.main.transform.position += new Vector3(oppositeVector.x, oppositeVector.y, 0);
         }
         else if (Input.GetMouseButtonDown(1) && isDragging) // Right click to cancel
         {

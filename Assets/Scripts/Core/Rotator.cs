@@ -86,9 +86,6 @@ public class Rotator : MonoBehaviour
 
     void Update()
     {
-        // Don't process input if over UI
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-
         // Check for right-click cancel first
         if (Input.GetMouseButtonDown(1))
         {
@@ -100,7 +97,7 @@ public class Rotator : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             isRotating = true;
             rotationPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -125,11 +122,19 @@ public class Rotator : MonoBehaviour
         {
             if (isRotating)
             {
-                Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                currentMousePos.z = 0;
-                
-                // Apply final rotation to the target transform
-                rotationTarget.RotateAround(rotationPoint, Vector3.forward, -cumulativeAngle);
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    
+                    // Register the start of the transform action
+                    TransformAction currentAction = new TransformAction(rotationTarget);
+                    UndoManager.Instance.RegisterAction(currentAction);
+
+                    Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    currentMousePos.z = 0;
+                    
+                    // Apply final rotation to the target transform
+                    rotationTarget.RotateAround(rotationPoint, Vector3.forward, -cumulativeAngle);
+                }
 
                 HideVisualizations();
             }

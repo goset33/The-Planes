@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class Drawer : MonoBehaviour
 {
@@ -25,10 +26,13 @@ public class Drawer : MonoBehaviour
 
     private void Update()
     {
-        // Don't process input if over UI
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
+        if (Input.GetMouseButtonDown(1) && isDrawing)
+        {
+            CancelDrawing();
+            isDrawing = false;
+        }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             startPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentPoint = startPoint;
@@ -42,12 +46,14 @@ public class Drawer : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0) && isDrawing)
         {
-            FinishDrawing();
-            isDrawing = false;
-        }
-        else if (Input.GetMouseButtonDown(1) && isDrawing)
-        {
-            CancelDrawing();
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                CancelDrawing();
+            }
+            else
+            {
+                FinishDrawing();
+            }
             isDrawing = false;
         }
     }
@@ -95,6 +101,16 @@ public class Drawer : MonoBehaviour
 
     private void FinishDrawing()
     {
+        if (activeDrawing != null)
+        {
+            // Register the creation action for our custom undo system
+            CreateAction currentAction = new CreateAction(activeDrawing);
+            UndoManager.Instance.RegisterAction(currentAction);
+
+#if UNITY_EDITOR
+            Undo.RegisterCreatedObjectUndo(activeDrawing, "Drawing");
+#endif
+        }
         activeDrawing = null;
     }
 
