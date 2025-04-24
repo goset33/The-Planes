@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27829d03b7755354d80e522dc707fc25, type: 3}
   m_Name: Sharp Triangle
   m_EditorClassIdentifier: 
-  objectName: "\u041E\u0441\u0442\u0440\u043E\u0443\u0433\u043E\u043B\u044C\u043D\u0438\u044B\u0439
+  objectName: "\u041E\u0441\u0442\u0440\u043E\u0443\u0433\u043E\u043B\u044C\u043D\u044B\u0439
     \u0442\u0440\u0435\u0443\u0433\u043E\u043B\u044C\u043D\u0438\u043A"
   icon: {fileID: 21300000, guid: 3e4a82940f120f040884a64f90a140a6, type: 3}
   prefab: {fileID: 8907680868967137910, guid: 38447969742e6b546b45be656ad7ea7d, type: 3}

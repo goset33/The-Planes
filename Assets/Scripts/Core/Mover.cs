@@ -172,7 +172,7 @@ public class Mover : MonoBehaviour
         if (vector == Vector2.zero)
         {
             coordinateText.transform.position = position + new Vector3(0, 0.2f, 0);
-            coordinateText.text = "(0.00, 0.00)";
+            coordinateText.text = "(0.00; 0.00)";
             return;
         }
 
@@ -197,6 +197,6 @@ public class Mover : MonoBehaviour
         coordinateText.transform.position = midPoint + offset;
         
         // Format the vector coordinates to 2 decimal places
-        coordinateText.text = $"({vector.x:F2}, {vector.y:F2})";
+        coordinateText.text = $"({vector.x:F2}; {vector.y:F2})";
     }
 }
